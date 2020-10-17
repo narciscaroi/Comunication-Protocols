@@ -1,0 +1,64 @@
+Caroi Narcis-Florin
+323CD
+
+parson.c & parson.h -> ttps://github.com/kgabis/parson
+
+helpers.c & helpers.h -> Laborator 10
+
+request.c & request.h -> Implementate in Laborator 10,in principal, cu usoare 
+					modificari sa se plieze pe tipul variabilelor folosite
+					in tema
+
+
+Am facut while(1) deoarece trebuie ca programul sa primeasca mereu comenzi in
+functie de ce primeste de la utilizator pana cand se primeste comanda de 
+"exit".
+
+La comenzile login si register trebuia sa folosesc la ambele user si pass,
+din acest motiv le-am pus in acelasi if pentru a nu avea cod duplicat.
+
+login->verific daca este cineva deja logat pe server, iar in cazul in care nu este, trimit mesaj catre server pentru a ma autentifica. Aici folosesc
+functia parse_response_to__cookie pentru a parsa raspunsul dat de server si
+a extrage cookie-ul primit astfel: caut "connect.sid" cu strstr, apoi parsez
+cu strtok pana la ";" unde se termina cookie-ul. Ca output, ma folosesc
+de functia get_login_output pentru a verifica daca raspunsul de la server
+contine "error" sau nu, si in functie de rapsuns printez eroarea sau mesajul
+"Login successful"
+
+register-> Trimit mesaj catre server pentru a ma inregistra, apoi ca output
+ma folosesc de functia get_registration_output care verifica raspunsul la 
+server si daca acesta contine "error", printeaza eroarea, in caz contrar
+printeaza "Registration successful".
+
+enter_library-> trimit cerere la server pentru a primi acces in library. 
+Verific daca token-ul este NULL si printez, cu ajutorul functiei
+get_enter_library_output, eroarea, altfel printez token-ul.
+
+get_books-> Trimit cerere la server cu url-ul pentru books, apoi 
+din raspunsul de la server, cu ajutorul functiei get_getBooks_output printez
+eroarea sau cartile.
+
+get_book-> Primesc de la tastatura "id"-ul pe care il concatenez, cu ajutorul
+functiei snprintf la string-ul "api". Apoi trimit mesajul obinut catre server
+iar ca output ma folosesc de functia get_get_getBook_output care verifica
+daca am eroare sau pot printa cartea cu id-ul respectiv.
+
+add_book-> Citesc datele pe care trebuie sa le atribui cartii pe care vreau
+sa o adaug, apoi cu functiile din parson.c, precum am facut si la functiile
+de register si login, cu JSON atribui datele citite. Output-ul il afisez
+cu ajutorul functiei get_addBook_output care cauta daca in raspuns daca
+se afla "error" si printeaza eroarea, in caz contrat printeaza "Book added
+successful".
+
+delete_book-> Citesc id-ul cartii care trebuie searsa de la tastatura,il
+concatenez la url-ul corespunzator si trimit mesaj serverului. Aici functia
+compute_detele_request este trimite mesaj cu metoda Delete, host-ul si 
+token-ul. Output-ul il afisez cu ajutorul functiei get_logout_output care
+verifica daca am string-ul "error" si printeza eroare, daca nu printeaza
+"Book removed successful"/
+
+logout-> Trimite cere la server pentru a ma deconecta de pe contul pe care
+eram autentificat. Output-ul il afisez cu ajutorul funciti get_logout_output
+care verifica daca am "error" in raspunsul de la server si printeaza eroarea
+altfel printeaza "Logout successful".
+
